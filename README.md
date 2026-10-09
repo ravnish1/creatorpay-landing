@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CreatorPay — Landing page
 
-## Getting Started
-
-First, run the development server:
+Next.js 16 · React 19 · Tailwind CSS 4 · GSAP + ScrollTrigger · Lenis · React Three Fiber.
+Light theme only. Cormorant Garamond (display) + Poppins (UI), per the CreatorPay design system.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Page map
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Section | File | What it does |
+|---|---|---|
+| Hero — Act I | `src/components/hero.tsx` | Founders' film plays once (muted autoplay, tap for sound, skippable). Placeholder title sequence until the film exists. |
+| Hero — Act II | `src/components/hero.tsx` | After the film: founders' portrait, headline, CTAs, live countdown, "Replay the film". Same-session visitors land here directly. |
+| HQ cam | `src/components/hq-cam.tsx` | Morning / afternoon / evening take, chosen by India time and started at the "current" second. No seeking, pausing or skipping. |
+| Product flow | `src/components/flow.tsx` | Connect → Discover → Share → Earn on a pinned three-phone stage (stacked on mobile). |
+| Auto DM | `src/components/auto-dm.tsx` | Animated comment → DM → sale story + real Auto DM screens. |
+| Academy | `src/components/academy.tsx` | The Academy as its own business model. |
+| Proof | `src/components/proof.tsx` | CollabX track record, brand wall, creator backers. |
+| Reserve | `src/components/reserve.tsx` | "Winter is coming…" countdown, 3D snow & embers, early-access form. |
+| Investors | `src/components/investors.tsx` | Round, raise, min. ticket, Google Calendar booking. |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Everything editable lives in `src/content/site.ts`
 
-## Learn More
+- `launchAt` — countdown target (currently 31 Jan 2027, 00:00 IST)
+- `media.foundersFilm`, `media.foundersFilmPoster` — hero film
+- `media.foundersPortrait` — the arms-folded portrait
+- `media.hqCam.morning | afternoon | evening` — HQ cam takes
+- `calendarUrl` — Google Calendar appointment schedule
+- `raise` — round, amount, minimum ticket
+- `founders`, `socials`, `contactEmail`
 
-To learn more about Next.js, take a look at the following resources:
+Empty values show a designed placeholder, so the site is always presentable.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Media
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Put files in `public/media/video/` (or a CDN) and reference them, e.g. `"/media/video/founders.mp4"`.
 
-## Deploy on Vercel
+- **Founders' film:** 16:9 MP4 (H.264), ideally under 25 MB. Add a poster JPG.
+- **Portrait:** around 2000 px wide, both founders standing face to face, arms folded.
+- **HQ cam:** one 10–20 minute take per slot. 1080p H.264 at about 2–3 Mbps keeps each file manageable. For long files, host on a CDN (Cloudflare R2, Bunny, S3) rather than in the repo.
+  The feed is labelled "HQ CAM · ON AIR", and the footer states these are recorded sessions synced to India time.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Google Calendar booking
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Google Calendar → *Create → Appointment schedule* → open the booking page → *Share* → copy the **embed** URL (`https://calendar.google.com/calendar/appointments/schedules/…?gv=true`) into `calendarUrl`. Until then, the section shows a "Request a call" email button.
+
+## Reservations → Google Sheet
+
+1. Create a Google Sheet with the header row: `submittedAt | name | email | phone | handle | role`.
+2. *Extensions → Apps Script*, paste the script below, set `SECRET`, then *Deploy → New deployment → Web app* (Execute as: **Me**, Access: **Anyone**).
+3. Copy the web app URL into `.env.local`:
+
+```bash
+GOOGLE_SHEET_WEBHOOK_URL=https://script.google.com/macros/s/XXXX/exec
+GOOGLE_SHEET_SECRET=the-same-secret
+```
+
+```js
+const SECRET = "the-same-secret";
+function doPost(e) {
+  const d = JSON.parse(e.postData.contents);
+  if (d.secret !== SECRET) return ContentService.createTextOutput("forbidden");
+  SpreadsheetApp.getActiveSpreadsheet().getSheets()[0]
+    .appendRow([d.submittedAt, d.name, d.email, d.phone, d.handle, d.role]);
+  return ContentService.createTextOutput("ok");
+}
+```
+
+Without the env var, dev mode accepts and logs submissions without storing them; production returns a friendly "opens shortly" error.
+
+## Deploy
+
+Vercel works out of the box. Add the two env vars in project settings.
