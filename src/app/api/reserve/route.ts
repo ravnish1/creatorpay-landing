@@ -30,7 +30,7 @@ export async function POST(request: Request) {
   if (clean(body.company_site)) return Response.json({ ok: true });
 
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "local";
-  if (limited(ip)) return Response.json({ error: "Too many attempts — try again in a few minutes." }, { status: 429 });
+  if (limited(ip)) return Response.json({ error: "Too many attempts. Try again in a few minutes." }, { status: 429 });
 
   const entry = {
     name: clean(body.name, 80),
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
   const webhook = process.env.GOOGLE_SHEET_WEBHOOK_URL;
   if (!webhook) {
     if (process.env.NODE_ENV !== "production") {
-      console.info("[reserve] (no GOOGLE_SHEET_WEBHOOK_URL set — dev only, not stored)", entry);
+      console.info("[reserve] (no GOOGLE_SHEET_WEBHOOK_URL set; dev only, not stored)", entry);
       return Response.json({ ok: true, dev: true });
     }
     return Response.json({ error: "Reservations open shortly. Please try again soon." }, { status: 503 });

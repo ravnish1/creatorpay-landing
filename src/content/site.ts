@@ -10,7 +10,7 @@ export const site = {
   name: "CreatorPay",
   tagline: "Connect. Post. Earn.",
   description:
-    "CreatorPay is the creator commerce app for India — discover brands, create, share and get paid in one place. Launching 31 January 2027.",
+    "CreatorPay is the creator commerce app for India. Discover brands, create, share and get paid in one place. Launching 31 January 2027.",
 
   /** Countdown target — App Store & Play Store launch (IST). */
   launchAt: "2027-01-31T00:00:00+05:30",
@@ -34,8 +34,8 @@ export const site = {
   /** Google Calendar appointment schedule (Booking page → "Share" → embed / link). */
   calendarUrl: "",
 
-  /** Fallback when no calendar link is set. */
-  contactEmail: "ankit@collabx.in",
+  /** Investor call booking page — the "Request a call" CTA opens this. */
+  bookingUrl: "https://cal.com/ravnish-kumar-te7xrd/15min",
 
   founders: [
     { name: "Ankit Madaan", role: "Founder & CEO", note: "A decade of creator–brand deals at CollabX Entertainment" },
@@ -45,7 +45,6 @@ export const site = {
   raise: {
     round: "Pre-seed",
     amount: "₹5 Cr",
-    runway: "18–24 months",
   },
 
   socials: [
@@ -57,9 +56,9 @@ export const site = {
 
 /** Nav tabs — `section` is the element id watched for the active tab. */
 export const nav = [
-  { label: "HQ cam", href: "#hq", section: "hq", icon: "/media/icons/yt.webp" },
   { label: "Product", href: "#product", section: "product", icon: "/media/icons/autodm.webp" },
   { label: "Academy", href: "#academy", section: "academy", icon: "/media/icons/academy.webp" },
   { label: "Why us", href: "#proof", section: "proof", icon: "/media/icons/trophy.webp" },
+  { label: "HQ cam", href: "#hq", section: "hq", icon: "/media/icons/yt.webp" },
   { label: "Investors", href: "#investors", section: "investors", icon: "/media/icons/handshake.webp" },
 ] as const;

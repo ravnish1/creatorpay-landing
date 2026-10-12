@@ -31,7 +31,8 @@ npm run build    # production build
 - `media.hqCam.morning | afternoon | evening` — HQ cam takes
 - `calendarUrl` — Google Calendar appointment schedule
 - `raise` — round, amount, minimum ticket
-- `founders`, `socials`, `contactEmail`
+- `bookingUrl` — Cal.com link opened by the "Request a call" CTA
+- `founders`, `socials`
 
 Empty values show a designed placeholder, so the site is always presentable.
 
@@ -46,7 +47,7 @@ Put files in `public/media/video/` (or a CDN) and reference them, e.g. `"/media/
 
 ### Google Calendar booking
 
-Google Calendar → *Create → Appointment schedule* → open the booking page → *Share* → copy the **embed** URL (`https://calendar.google.com/calendar/appointments/schedules/…?gv=true`) into `calendarUrl`. Until then, the section shows a "Request a call" email button.
+Google Calendar → *Create → Appointment schedule* → open the booking page → *Share* → copy the **embed** URL (`https://calendar.google.com/calendar/appointments/schedules/…?gv=true`) into `calendarUrl`. Until then, the section shows a "Request a call" button linking to `bookingUrl`.
 
 ## Reservations → Google Sheet
 

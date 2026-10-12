@@ -1,4 +1,4 @@
-import { Eyebrow, Reveal } from "./ui";
+import { Reveal } from "./ui";
 
 const STATS = [
   { icon: "trophy", n: "₹100 Cr+", l: "in brand business delivered over 10+ years at CollabX Entertainment", c: "text-money", bg: "bg-money-soft" },
@@ -18,8 +18,7 @@ export function Proof() {
   return (
     <Reveal as="section" id="proof" className="screen relative mx-auto max-w-7xl px-4 sm:px-6">
       <div className="max-w-3xl">
-        <Eyebrow>Why us</Eyebrow>
-        <h2 data-reveal className="display t-section mt-4">
+        <h2 data-reveal className="display t-section">
           Others start from zero. <em className="text-royal">We start with the room already full.</em>
         </h2>
       </div>
@@ -60,12 +59,11 @@ export function Backers() {
     <Reveal as="section" id="backers" className="screen relative mx-auto max-w-7xl px-4 sm:px-6">
       <div className="grid gap-[clamp(1.5rem,5svh,3.5rem)] lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
         <div>
-          <Eyebrow tone="ink">Backed by creators who know the market</Eyebrow>
-          <h2 data-reveal className="display t-section mt-4">
+          <h2 data-reveal className="display t-section">
             The people we&rsquo;re building for <em className="text-royal">backed us first.</em>
           </h2>
           <p data-reveal className="mt-[clamp(0.9rem,2.4svh,1.5rem)] max-w-md text-ink-2">
-            Our first investors have built audiences and businesses inside the creator economy. They know what&rsquo;s broken — and they bet on us to fix it.
+            Our first investors have built audiences and businesses inside the creator economy. They know what&rsquo;s broken, and they bet on us to fix it.
           </p>
         </div>
         <div className="grid grid-cols-2 gap-3">
@@ -73,10 +71,10 @@ export function Backers() {
             <div key={b.k} data-reveal>
             <figure className="group flex h-full items-center gap-4 rounded-[1.75rem] bg-white p-[clamp(0.8rem,2svh,1.25rem)] ring-1 ring-line transition hover:-translate-y-1 hover:shadow-lg max-sm:flex-col max-sm:text-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`/media/people/${b.k}.webp`} alt={b.n} className="h-[clamp(4rem,11svh,6.5rem)] w-[clamp(4rem,11svh,6.5rem)] shrink-0 rounded-full object-cover grayscale-[30%] transition group-hover:grayscale-0" />
+              <img src={`/media/people/${b.k}.webp`} alt={b.n} className="h-[clamp(4rem,11svh,6.5rem)] w-[clamp(4rem,11svh,6.5rem)] shrink-0 max-sm:h-20 max-sm:w-20 rounded-full object-cover grayscale-[30%] transition group-hover:grayscale-0" />
               <figcaption>
-                <p className="font-serif text-[clamp(1.15rem,2.8svh,1.6rem)] font-semibold leading-tight">{b.n}</p>
-                <p className="text-xs text-ink-3">{b.r}</p>
+                <p className="text-balance font-serif text-[clamp(1.15rem,2.8svh,1.6rem)] font-semibold leading-tight max-sm:text-xl">{b.n}</p>
+                <p className="mt-0.5 text-xs text-ink-3">{b.r}</p>
               </figcaption>
             </figure>
             </div>

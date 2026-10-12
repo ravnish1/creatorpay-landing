@@ -1,8 +1,8 @@
-import { Eyebrow, Reveal } from "./ui";
+import { Reveal } from "./ui";
 
 const FLOW = [
   { n: "01", t: "Enroll", d: "Emerging creators pay to join.", tag: "Engine 1 · course fees", c: "text-royal", ring: "ring-royal/30", bg: "bg-royal-soft" },
-  { n: "02", t: "Learn", d: "Six commerce tracks — hooks to live selling.", tag: "Commerce-ready skills", c: "text-violet", ring: "ring-violet/30", bg: "bg-violet-soft" },
+  { n: "02", t: "Learn", d: "Six commerce tracks, from hooks to live selling.", tag: "Commerce-ready skills", c: "text-violet", ring: "ring-violet/30", bg: "bg-violet-soft" },
   { n: "03", t: "Graduate & earn", d: "Graduates sell on CreatorPay from day one.", tag: "Engine 2 · commissions", c: "text-money", ring: "ring-money/30", bg: "bg-money-soft" },
 ];
 
@@ -13,12 +13,11 @@ export function Academy() {
     <Reveal as="section" id="academy" className="screen relative mx-auto max-w-7xl px-4 sm:px-6">
       <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
         <div>
-          <Eyebrow tone="violet">CreatorPay Academy</Eyebrow>
-          <h2 data-reveal className="display t-section mt-4">
+          <h2 data-reveal className="display t-section">
             Creators pay to learn. <em className="text-violet">Then they earn with us.</em>
           </h2>
           <p data-reveal className="mt-[clamp(0.9rem,2.4svh,1.5rem)] max-w-lg text-ink-2">
-            Most platforms buy their creators. We grow ours — and get paid twice: once when they learn, again every time they sell.
+            Most platforms buy their creators. We grow ours, and get paid twice: once when they learn, again every time they sell.
           </p>
 
           <div className="mt-[clamp(1.25rem,3.5svh,2.5rem)] grid gap-3 sm:grid-cols-3">

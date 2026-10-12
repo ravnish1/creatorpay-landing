@@ -34,10 +34,10 @@ const pad = (n: number) => String(n).padStart(2, "0");
 export function Countdown({ size = "lg", className }: { size?: "sm" | "lg"; className?: string }) {
   const p = useCountdown();
   const cells: [string, string][] = [
-    [p ? String(p.d) : "—", "days"],
-    [p ? pad(p.h) : "—", "hrs"],
-    [p ? pad(p.m) : "—", "min"],
-    [p ? pad(p.s) : "—", "sec"],
+    [p ? String(p.d) : "--", "days"],
+    [p ? pad(p.h) : "--", "hrs"],
+    [p ? pad(p.m) : "--", "min"],
+    [p ? pad(p.s) : "--", "sec"],
   ];
   if (size === "sm") {
     return (

@@ -8,21 +8,28 @@ import clsx from "clsx";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-/** Children with [data-reveal] rise + fade in as the block scrolls into view. */
+/**
+ * Scroll entrance for a block: its h2 wipes up out of a mask, then the other [data-reveal]
+ * children rise out of a soft blur. Skipped entirely for reduced motion.
+ */
 export function Reveal({ children, className, as: Tag = "div", id }: { children: React.ReactNode; className?: string; as?: "div" | "section"; id?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   useGSAP(
     () => {
-      const items = ref.current?.querySelectorAll("[data-reveal]");
-      if (!items?.length) return;
-      gsap.from(items, {
-        y: 40,
-        opacity: 0,
-        duration: 1.1,
-        ease: "expo.out",
-        stagger: 0.08,
-        scrollTrigger: { trigger: ref.current, start: "top 78%" },
+      const root = ref.current;
+      if (!root) return;
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const all = [...root.querySelectorAll<HTMLElement>("[data-reveal]")];
+        const heads = all.filter((el) => el.tagName === "H2");
+        const rest = all.filter((el) => el.tagName !== "H2");
+        const tl = gsap.timeline({ scrollTrigger: { trigger: root, start: "top 78%" } });
+        if (heads.length)
+          tl.fromTo(heads, { clipPath: "inset(0% 0% 100% 0%)", y: 48 }, { clipPath: "inset(0% 0% -20% 0%)", y: 0, duration: 1.3, ease: "expo.out", clearProps: "clipPath,transform" }, 0);
+        if (rest.length)
+          tl.from(rest, { y: 32, opacity: 0, filter: "blur(8px)", duration: 1.1, ease: "expo.out", stagger: 0.07, clearProps: "filter,transform" }, heads.length ? 0.2 : 0);
       });
+      return () => mm.revert();
     },
     { scope: ref },
   );
@@ -93,7 +100,7 @@ export function PrimaryCta({ href, children, className, onClick, type, disabled,
     </>
   );
   return href ? (
-    <a ref={ref} href={href} className={cls} onClick={onClick}>{inner}</a>
+    <a ref={ref} href={href} className={cls} onClick={onClick} {...(/^https?:/.test(href) && { target: "_blank", rel: "noopener noreferrer" })}>{inner}</a>
   ) : (
     <button ref={ref} type={type ?? "button"} className={cls} onClick={onClick} disabled={disabled}>{inner}</button>
   );

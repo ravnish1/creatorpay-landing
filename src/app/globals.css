@@ -244,6 +244,35 @@ html.lg-refract .liquid-glass {
   justify-content: center;
   padding-block: clamp(5rem, 11svh, 7rem) clamp(2rem, 6svh, 4.5rem);
 }
+/* Phones: sections size to their content with one steady rhythm, no dead viewport-height gaps. */
+@media (max-width: 767px) {
+  .screen {
+    min-height: 0;
+    padding-block: 4.5rem 1.5rem;
+  }
+}
+
+/* Touch: no grey tap flash, and a quick press-in instead of hover-only feedback. */
+html { -webkit-tap-highlight-color: transparent; }
+@media (hover: none) {
+  .cta, .tap { transition: transform 0.25s var(--ease-out-expo); }
+  .cta:active, .tap:active { transform: scale(0.97); }
+}
+
+/* Phone carousel: each slide scales into focus as it crosses the track (scroll-driven, no JS) */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .slide-focus {
+      animation: slide-focus linear both;
+      animation-timeline: view(inline);
+    }
+  }
+}
+@keyframes slide-focus {
+  0% { transform: scale(0.88) rotate(-2deg); opacity: 0.4; }
+  50% { transform: none; opacity: 1; }
+  100% { transform: scale(0.88) rotate(2deg); opacity: 0.4; }
+}
 
 @keyframes rise {
   from { opacity: 0; transform: translateY(40px) scale(0.96); }

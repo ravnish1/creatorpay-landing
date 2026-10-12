@@ -15,12 +15,12 @@ export default function Home() {
       <Nav />
       <main>
         <Hero />
-        <HqCam />
         <Flow />
         <AutoDm />
         <Academy />
         <Proof />
         <Backers />
+        <HqCam />
         <Reserve />
         <Investors />
       </main>

@@ -6,7 +6,7 @@ import { useGSAP } from "@gsap/react";
 import clsx from "clsx";
 import { site } from "@/content/site";
 import { Countdown } from "./countdown";
-import { Arrow, CalendarIcon, CtaIcon, Eyebrow, GlassCta, PlayIcon, PrimaryCta } from "./ui";
+import { Arrow, CalendarIcon, GlassCta, PlayIcon } from "./ui";
 
 gsap.registerPlugin(useGSAP);
 
@@ -87,8 +87,7 @@ function FilmAct({ onDone }: { onDone: () => void }) {
     <div ref={root} className="relative mx-auto flex w-full max-w-7xl flex-col items-center px-4 sm:px-6">
       <div className="mb-4 flex w-full max-w-[min(100%,calc((100svh-15rem)*16/9))] items-end justify-between gap-4">
         <div>
-          <Eyebrow>A note from the founders</Eyebrow>
-          <p className="display mt-2 text-3xl sm:text-4xl">
+          <p className="display text-3xl sm:text-4xl">
             Before anything else, <em>meet us.</em>
           </p>
         </div>
@@ -147,7 +146,7 @@ function PlaceholderFilm() {
         <span className="font-sans text-4xl font-bold tracking-tight sm:text-6xl">CreatorPay</span>
       </div>
       <span className="absolute right-4 top-4 rounded-full sm:right-5 sm:top-5 bg-white/80 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-widest text-ink-3 ring-1 ring-line">
-        Founders&rsquo; film — placeholder
+        Founders&rsquo; film: placeholder
       </span>
     </div>
   );
@@ -182,7 +181,7 @@ function PortraitAct({ onReplay }: { onReplay: () => void }) {
   const headline = ["Creators", "make", "culture."];
 
   return (
-    <div ref={root} className="relative mx-auto grid w-full max-w-7xl items-center gap-8 px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10">
+    <div ref={root} className="relative mx-auto grid w-full max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10">
       <div className="relative z-10">
         <h1 className="display t-hero">
           <span className="block overflow-hidden pb-1">
@@ -199,49 +198,59 @@ function PortraitAct({ onReplay }: { onReplay: () => void }) {
         </h1>
 
         <p className="p-fade mt-[clamp(1rem,2.6svh,1.75rem)] max-w-lg text-base leading-relaxed text-ink-2 sm:text-lg">
-          One app to discover brands, create, share and earn — built by the team behind a decade of India&rsquo;s creator–brand deals.
+          One app to discover brands, create, share and earn, built by the team behind a decade of India&rsquo;s creator–brand deals.
         </p>
 
-        <div className="p-fade mt-[clamp(1.25rem,3.4svh,2.25rem)] flex flex-wrap items-center gap-3">
-          <PrimaryCta href="#reserve" size="lg">Reserve early access</PrimaryCta>
-          <GlassCta href="#investors" size="lg" lead={<FounderStack />}>
-            Investing? <span className="text-royal">Book a call</span>
-          </GlassCta>
+        {/* One question, two doors: every visitor picks their path here. */}
+        <div className="mt-[clamp(1.5rem,4svh,2.5rem)] grid max-w-xl gap-3 sm:grid-cols-2">
+          <IntentCta href="#reserve" who="I’m a creator" action="Reserve early access" primary />
+          <IntentCta href={site.bookingUrl} who="I’m investing" action="Book a 15-min call" />
         </div>
 
-        <WinterCall className="mt-6 md:hidden short-flex" />
-        <MobileFounders />
-
-        <div className="p-fade mt-[clamp(1.25rem,4svh,2.5rem)] flex flex-wrap items-center gap-x-6 gap-y-3">
-          <div>
-            <p className="eyebrow text-ink-3">Launch in</p>
-            <Countdown size="sm" className="mt-1" />
+        <div className="p-fade mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-medium text-ink-3">Launch in</span>
+            <Countdown size="sm" />
           </div>
-          <GlassCta onClick={onReplay} lead={<span className="grid h-9 w-9 place-items-center rounded-full bg-royal-soft text-royal transition-colors group-hover:bg-royal group-hover:text-white"><PlayIcon /></span>}>
-            Replay the film
-          </GlassCta>
+          <button onClick={onReplay} className="tap group inline-flex items-center gap-2 text-sm font-medium text-ink-2 transition-colors hover:text-royal">
+            <span className="grid h-8 w-8 place-items-center rounded-full bg-royal-soft text-royal transition-colors group-hover:bg-royal group-hover:text-white"><PlayIcon /></span>
+            Replay the founders&rsquo; note
+          </button>
         </div>
       </div>
 
-      <div className="relative hidden md:block short-hide">
-        <WinterCall className="mx-auto mb-[clamp(1.5rem,4svh,2.75rem)] max-w-[min(100%,30rem)]" />
+      <div className="relative short-hide">
+        <p className="p-fade display mx-auto mb-[clamp(1.5rem,4svh,2.75rem)] hidden max-w-[min(100%,30rem)] text-[clamp(1.6rem,min(2.5vw,4.4svh),2.5rem)] leading-[1.02] md:block">
+          Winter is coming. <em className="text-tangerine">And we&rsquo;re bringing the fire.</em>
+        </p>
         <FoundersPortrait />
       </div>
     </div>
   );
 }
 
-/** Launch line + "Join us" — above the founders' portrait (inside the hero copy on phones). */
-function WinterCall({ className }: { className?: string }) {
+/** Hero path choice: who you are on top, what you get below, one arrow. Both doors carry equal weight. */
+function IntentCta({ href, who, action, primary }: { href: string; who: string; action: string; primary?: boolean }) {
+  const external = /^https?:/.test(href);
   return (
-    <div className={clsx("p-fade flex flex-wrap items-center justify-between gap-x-6 gap-y-3", className)}>
-      <p className="display max-w-[19rem] text-[clamp(1.6rem,min(2.5vw,4.4svh),2.5rem)] leading-[1.02]">
-        Winter is coming. <em className="text-tangerine">And we&rsquo;re bringing the fire.</em>
-      </p>
-      <GlassCta href="#reserve" lead={<CtaIcon tone="lime"><Arrow className="-rotate-45" /></CtaIcon>}>
-        Join us
-      </GlassCta>
-    </div>
+    <a
+      href={href}
+      {...(external && { target: "_blank", rel: "noopener noreferrer" })}
+      className={clsx(
+        "p-fade cta group flex items-center justify-between gap-4 rounded-[1.5rem] py-3 pl-5 pr-3 transition-shadow duration-300",
+        primary
+          ? "bg-gradient-to-b from-[#4b7cff] to-royal text-white shadow-[0_18px_40px_-16px_rgba(53,107,255,0.8),inset_0_1px_0_rgba(255,255,255,0.35)] hover:shadow-[0_22px_46px_-14px_rgba(53,107,255,0.95),inset_0_1px_0_rgba(255,255,255,0.35)]"
+          : "liquid-glass text-ink",
+      )}
+    >
+      <span className="relative z-[2] min-w-0">
+        <span className={clsx("block text-xs font-medium", primary ? "text-white/75" : "text-ink-3")}>{who}</span>
+        <span className="mt-0.5 block text-base font-semibold leading-tight">{action}</span>
+      </span>
+      <span className={clsx("cta-chip relative z-[2] grid h-11 w-11 shrink-0 place-items-center rounded-full", primary ? "bg-lime text-ink" : "bg-ink text-white")}>
+        {primary ? <Arrow className="-rotate-45" /> : <CalendarIcon />}
+      </span>
+    </a>
   );
 }
 
@@ -249,7 +258,7 @@ function FoundersPortrait() {
   const [a, b] = site.founders;
   const photo = site.media.foundersPortrait;
   return (
-    <div className="relative mx-auto w-full max-w-[min(100%,26rem,calc((100svh-19rem)*0.62))] lg:max-w-[min(100%,calc((100svh-19rem)*0.62))]">
+    <div className="relative mx-auto w-full max-w-[min(88%,20rem)] sm:max-w-[min(100%,26rem,calc((100svh-19rem)*0.62))] lg:max-w-[min(100%,calc((100svh-19rem)*0.62))]">
       <div className="p-parallax relative">
         {photo ? (
           <div className="p-frame relative aspect-[4/5] overflow-hidden rounded-[2.5rem] ring-1 ring-line sm:aspect-[5/5]">
@@ -289,41 +298,6 @@ function NameTag({ name, role, className }: { name: string; role: string; classN
     <div className={clsx("rounded-2xl bg-white/90 px-4 py-2.5 shadow-[0_12px_30px_-12px_rgba(17,2,2,0.25)] ring-1 ring-line backdrop-blur", className)}>
       <p className="font-serif text-lg font-semibold leading-tight">{name}</p>
       <p className="text-[0.7rem] font-medium text-ink-3">{role}</p>
-    </div>
-  );
-}
-
-const initials = (n: string) => n.split(" ").map((p) => p[0]).join("");
-
-/** Two founder monograms — lead for the "Book a call" CTA. */
-function FounderStack() {
-  const [a, b] = site.founders;
-  return (
-    <span className="flex -space-x-2.5">
-      <span className="grid h-10 w-10 place-items-center rounded-full bg-royal font-serif text-sm font-semibold text-white ring-2 ring-white">{initials(a.name)}</span>
-      <span className="grid h-10 w-10 place-items-center rounded-full bg-lime font-serif text-sm font-semibold text-ink ring-2 ring-white">{initials(b.name)}</span>
-      <span className="grid h-10 w-10 place-items-center rounded-full bg-white text-royal ring-2 ring-white transition-colors group-hover:bg-royal group-hover:text-white">
-        <CalendarIcon />
-      </span>
-    </span>
-  );
-}
-
-/** Phones & short screens: compact founders row instead of the tall portrait, so the hero fits one screen. */
-function MobileFounders() {
-  return (
-    <div className="p-fade mt-6 flex max-w-xl gap-2 md:hidden short-flex">
-      {site.founders.map((f, i) => (
-        <div key={f.name} className="liquid-glass flex flex-1 items-center gap-2.5 rounded-2xl p-2">
-          <span className={clsx("grid h-10 w-10 shrink-0 place-items-center rounded-full font-serif text-sm font-semibold", i ? "bg-lime text-ink" : "bg-royal text-white")}>
-            {initials(f.name)}
-          </span>
-          <span className="min-w-0">
-            <span className="block truncate font-serif text-base font-semibold leading-tight">{f.name}</span>
-            <span className="block truncate text-[0.65rem] text-ink-3">{f.role}</span>
-          </span>
-        </div>
-      ))}
     </div>
   );
 }

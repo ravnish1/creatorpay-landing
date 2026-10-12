@@ -5,12 +5,13 @@ import { useState } from "react";
 import clsx from "clsx";
 import { site } from "@/content/site";
 import { Countdown } from "./countdown";
-import { Eyebrow, PrimaryCta, Reveal } from "./ui";
+import { PrimaryCta, Reveal } from "./ui";
 import { AppStoreIcon, PlayStoreIcon } from "./brand-icons";
 
 const WinterScene = dynamic(() => import("./winter-scene"), { ssr: false });
 
-const ROLES = ["Creator", "Brand", "Investor", "Just curious"] as const;
+/** Investors have their own path (book a call), so the waitlist stays about the product. */
+const ROLES = ["Creator", "Brand", "Just curious"] as const;
 
 type Status = "idle" | "sending" | "done" | "error";
 
@@ -32,8 +33,7 @@ export function Reserve() {
       <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6">
         <div className="grid items-end gap-[clamp(1.25rem,3svh,2rem)] lg:grid-cols-[1fr_auto]">
           <div>
-            <Eyebrow>Early access</Eyebrow>
-            <h2 data-reveal className="display t-section mt-4 max-w-3xl">
+            <h2 data-reveal className="display t-section max-w-3xl">
               Launching <em className="text-tangerine">{site.launchLabel}.</em>
             </h2>
             <div data-reveal className="mt-4 flex flex-wrap items-center gap-3">
@@ -182,7 +182,7 @@ function ReserveForm({ status, setStatus }: { status: Status; setStatus: (s: Sta
 
       <fieldset className="mt-[clamp(1rem,2.6svh,1.5rem)]">
         <legend className={label}>I&rsquo;m joining as</legend>
-        <div className="mt-2 grid grid-cols-2 gap-1 rounded-2xl bg-canvas p-1 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-2 grid grid-cols-3 gap-1 rounded-2xl bg-canvas p-1">
           {ROLES.map((r) => (
             <button
               key={r}
@@ -190,7 +190,7 @@ function ReserveForm({ status, setStatus }: { status: Status; setStatus: (s: Sta
               onClick={() => setRole(r)}
               aria-pressed={role === r}
               className={clsx(
-                "rounded-xl px-3 py-2 text-sm font-medium transition",
+                "rounded-xl px-2 py-2.5 text-sm font-medium transition",
                 role === r ? "bg-white text-royal shadow-[0_6px_16px_-8px_rgba(53,107,255,0.6)] ring-1 ring-line" : "text-ink-2 hover:text-ink",
               )}
             >

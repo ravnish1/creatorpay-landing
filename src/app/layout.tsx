@@ -20,10 +20,10 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: `${site.name} — ${site.tagline}`,
+  title: `${site.name} | ${site.tagline}`,
   description: site.description,
   openGraph: {
-    title: `${site.name} — ${site.tagline}`,
+    title: `${site.name} | ${site.tagline}`,
     description: site.description,
     type: "website",
   },
@@ -32,6 +32,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: "#fbfbf9",
   colorScheme: "light",
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -2,8 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { site } from "@/content/site";
-import { Eyebrow, Reveal } from "./ui";
+import { Reveal } from "./ui";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 type Slot = "morning" | "afternoon" | "evening";
 
@@ -54,18 +59,28 @@ export function HqCam() {
 
   const slot = now ? slotFor(now.h) : null;
 
+  // The page's one scrubbed moment: the camera "zooms in" on HQ as you scroll toward it.
+  const zoom = useRef<HTMLDivElement>(null);
+  useGSAP(() => {
+    const mm = gsap.matchMedia();
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      gsap.fromTo(zoom.current, { scale: 0.86, rotate: -1.5 }, { scale: 1, rotate: 0, ease: "none", scrollTrigger: { trigger: zoom.current, start: "top bottom", end: "center 60%", scrub: 0.6 } });
+    });
+    return () => mm.revert();
+  });
+
   return (
     <Reveal as="section" id="hq" className="screen relative mx-auto max-w-7xl px-4 sm:px-6">
       <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
         <div>
-          <Eyebrow tone="onair" className="flex items-center gap-2" >
-            <span className="onair-dot h-2 w-2 rounded-full bg-onair" /> Right now at CreatorPay HQ
-          </Eyebrow>
-          <h2 data-reveal className="display t-section mt-4">
+          <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-onair ring-1 ring-onair/25">
+            <span className="onair-dot h-2 w-2 rounded-full bg-onair" /> Live from HQ
+          </span>
+          <h2 data-reveal className="display t-section mt-5">
             Don&rsquo;t take our word for it. <em className="text-royal">Watch us build.</em>
           </h2>
           <p data-reveal className="mt-[clamp(1rem,2.6svh,1.75rem)] max-w-md font-serif text-[clamp(1.45rem,3.3svh,2.1rem)] font-normal leading-[1.2] text-ink">
-            Anyone can say they&rsquo;re building. <em className="text-royal">We&rsquo;d rather you watch it happen</em> — every idea, every argument, every late-night fix.
+            Anyone can say they&rsquo;re building. <em className="text-royal">We&rsquo;d rather you watch it happen</em>. Every idea, every argument, every late-night fix.
           </p>
           <p data-reveal className="eyebrow mt-4 text-ink-3">No rewinds · No skips · Just the work</p>
 
@@ -93,7 +108,9 @@ export function HqCam() {
         </div>
 
         <div data-reveal>
-          <CamFrame slot={slot} now={now} />
+          <div ref={zoom} className="will-change-transform">
+            <CamFrame slot={slot} now={now} />
+          </div>
         </div>
       </div>
     </Reveal>
@@ -114,7 +131,7 @@ function CamFrame({ slot, now }: { slot: Slot | null; now: ReturnType<typeof ist
             <span className="flex items-center gap-2 rounded-md bg-white/85 px-2.5 py-1.5 font-sans font-semibold tracking-wide shadow-sm">
               <span className="onair-dot h-2 w-2 rounded-full bg-onair" />
             </span>
-            <span className="rounded-md bg-white/85 px-2.5 py-1.5 tabular-nums shadow-sm">{now?.label ?? "—"}</span>
+            <span className="rounded-md bg-white/85 px-2.5 py-1.5 tabular-nums shadow-sm">{now?.label ?? "--"}</span>
           </div>
           <div className="flex items-end justify-end gap-2">
             <span className="rounded-md bg-white/85 px-2.5 py-1.5 font-sans shadow-sm">CreatorPay HQ</span>

@@ -5,7 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Phone } from "./phone";
-import { Eyebrow, Reveal } from "./ui";
+import { Reveal } from "./ui";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -35,12 +35,11 @@ export function AutoDm() {
     <Reveal as="section" className="screen relative overflow-hidden bg-gradient-to-b from-paper via-violet-soft/60 to-paper">
       <div className="mx-auto grid w-full max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-2">
         <div>
-          <Eyebrow tone="violet">Auto DM</Eyebrow>
-          <h2 data-reveal className="display t-section mt-4">
+          <h2 data-reveal className="display t-section">
             Comment. DM. Sale. <em className="text-violet">On autopilot.</em>
           </h2>
           <p data-reveal className="mt-[clamp(0.9rem,2.4svh,1.5rem)] max-w-md text-ink-2">
-            Followers comment a keyword. CreatorPay replies in their DMs with the product and your link — instantly, every time, even while you sleep.
+            Followers comment a keyword. CreatorPay replies in their DMs with the product and your link. Instantly, every time, even while you sleep.
           </p>
 
           <div ref={stage} data-reveal className="relative mt-[clamp(1.25rem,3.5svh,2.5rem)] h-[clamp(17rem,40svh,22rem)] max-w-md rounded-[2rem] bg-white p-5 shadow-[0_30px_80px_-40px_rgba(123,92,240,0.5)] ring-1 ring-line">
@@ -78,10 +77,10 @@ export function AutoDm() {
 
         <div data-reveal className="relative mx-auto hidden w-full max-w-[min(32rem,calc((100svh-10rem)*0.92))] items-center justify-center gap-4 sm:flex">
           <div className="w-[46%] -rotate-3 translate-y-6">
-            <Phone src="/media/screens/dm3_keywords.webp" alt="Auto DM — set trigger keywords" notch={false} />
+            <Phone src="/media/screens/dm3_keywords.webp" alt="Auto DM: set trigger keywords" notch={false} />
           </div>
           <div className="w-[46%] rotate-3">
-            <Phone src="/media/screens/dm1_connect.webp" alt="Auto DM — connect Instagram" notch={false} />
+            <Phone src="/media/screens/dm1_connect.webp" alt="Auto DM: connect Instagram" notch={false} />
           </div>
         </div>
       </div>
