@@ -1,7 +1,7 @@
 import { Eyebrow, Reveal } from "./ui";
 
 const STATS = [
-  { icon: "trophy", n: "10+ years", l: "running creator–brand deals at CollabX Entertainment", c: "text-money", bg: "bg-money-soft" },
+  { icon: "trophy", n: "₹100 Cr+", l: "in brand business delivered over 10+ years at CollabX Entertainment", c: "text-money", bg: "bg-money-soft" },
   { icon: "handshake", n: "500+", l: "brands we already work with", c: "text-royal", bg: "bg-royal-soft" },
   { icon: "verified", n: "4,00,000+", l: "curated creators across categories", c: "text-violet", bg: "bg-violet-soft" },
   { icon: "academy", n: "Academy", l: "our own pipeline of new creators", c: "text-rose", bg: "bg-rose-soft" },

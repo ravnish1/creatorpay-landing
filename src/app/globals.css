@@ -226,6 +226,12 @@ html.lg-refract .liquid-glass {
   transform: rotate(-45deg) scale(1.08);
 }
 
+/* Short viewports (phones in landscape): swap tall visuals for compact ones */
+@media (max-height: 560px) {
+  .short-hide { display: none; }
+  .short-flex { display: flex; }
+}
+
 /* ------------------------ Viewport-fit sizing ------------------------ */
 /* Sizes scale with both width and height so each section fits one screen. */
 .t-hero { font-size: clamp(2.6rem, min(7.4vw, 10.2svh), 6.4rem); }

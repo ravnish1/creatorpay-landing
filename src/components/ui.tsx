@@ -69,13 +69,15 @@ type CtaProps = {
   /** Small element shown at the start (icon, avatars) — secondary CTAs */
   lead?: React.ReactNode;
   size?: "md" | "lg";
+  /** Pull toward the cursor; turn off for wide, full-width buttons. */
+  magnetic?: boolean;
 };
 
 /**
  * Primary CTA — royal pill, lime arrow chip that turns on hover, light sweep, magnetic.
  */
-export function PrimaryCta({ href, children, className, onClick, type, disabled, size = "md" }: CtaProps) {
-  const ref = useMagnetic<HTMLAnchorElement & HTMLButtonElement>();
+export function PrimaryCta({ href, children, className, onClick, type, disabled, size = "md", magnetic = true }: CtaProps) {
+  const ref = useMagnetic<HTMLAnchorElement & HTMLButtonElement>(magnetic ? 0.25 : 0);
   const cls = clsx(
     "cta group inline-flex items-center gap-3 whitespace-nowrap rounded-full bg-gradient-to-b from-[#4b7cff] to-royal font-semibold text-white",
     "shadow-[0_14px_34px_-12px_rgba(53,107,255,0.75),inset_0_1px_0_rgba(255,255,255,0.35)] transition-shadow duration-300 hover:shadow-[0_18px_40px_-12px_rgba(53,107,255,0.9),inset_0_1px_0_rgba(255,255,255,0.35)] disabled:opacity-60",

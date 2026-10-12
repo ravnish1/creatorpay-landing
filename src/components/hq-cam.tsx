@@ -83,9 +83,9 @@ export function HqCam() {
                   <span className="flex items-center gap-3">
                     <span className={clsx("h-2 w-2 rounded-full", active ? "onair-dot bg-onair" : "bg-mist")} />
                     <span className={clsx("font-semibold", active && "text-ink")}>{s.label}</span>
-                    <span className="hidden sm:inline">· {s.what}</span>
+                    <span className="hidden sm:inline lg:hidden xl:inline">· {s.what}</span>
                   </span>
-                  <span className="tabular-nums">{active ? "On air" : s.hours + " IST"}</span>
+                  <span className="shrink-0 whitespace-nowrap tabular-nums">{active ? "On air" : s.hours + " IST"}</span>
                 </li>
               );
             })}

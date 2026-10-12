@@ -89,11 +89,14 @@ export function Flow() {
         </div>
       </div>
 
-      {/* Mobile & tablet: stacked */}
-      <div className="mx-auto max-w-2xl px-4 py-24 lg:hidden">
+      {/* Phones: swipeable step carousel */}
+      <MobileCarousel />
+
+      {/* Tablet: stacked */}
+      <div className="mx-auto hidden max-w-2xl px-6 py-24 md:block lg:hidden">
         <div className="flow-head">
           <Eyebrow>The product</Eyebrow>
-          <h2 className="display mt-4 text-5xl sm:text-6xl">
+          <h2 className="display mt-4 text-6xl">
             Connect. Post. <em className="text-money">Earn.</em>
           </h2>
         </div>
@@ -113,5 +116,88 @@ export function Flow() {
         </div>
       </div>
     </section>
+  );
+}
+
+/** Phones: one step per slide, native swipe with scroll-snap, dots + tabs stay in sync. */
+function MobileCarousel() {
+  const track = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+
+  const onScroll = () => {
+    const el = track.current;
+    if (!el) return;
+    const i = Math.round(el.scrollLeft / el.clientWidth);
+    setActive(Math.max(0, Math.min(STEPS.length - 1, i)));
+  };
+  const go = (i: number) => {
+    const el = track.current;
+    el?.scrollTo({ left: i * el.clientWidth, behavior: "smooth" });
+  };
+
+  return (
+    <div className="py-20 md:hidden">
+      <div className="flow-head px-4">
+        <Eyebrow>The product · {String(active + 1).padStart(2, "0")} / 04</Eyebrow>
+        <h2 className="display mt-4 text-[clamp(2.5rem,12vw,3.5rem)]">
+          Connect. Post. <em className="text-money">Earn.</em>
+        </h2>
+      </div>
+
+      {/* Step tabs */}
+      <div className="mt-6 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="tablist" aria-label="Product steps">
+        {STEPS.map((s, i) => (
+          <button
+            key={s.k}
+            role="tab"
+            aria-selected={i === active}
+            onClick={() => go(i)}
+            className={clsx(
+              "shrink-0 rounded-full px-4 py-2 text-xs font-semibold ring-1 transition",
+              i === active ? "bg-white text-ink shadow-sm ring-line" : "text-ink-3 ring-transparent",
+            )}
+          >
+            <span className={clsx("mr-1.5 tabular-nums", i === active && s.accent)}>{String(i + 1).padStart(2, "0")}</span>
+            {s.k}
+          </button>
+        ))}
+      </div>
+
+      <div
+        ref={track}
+        onScroll={onScroll}
+        className="mt-4 flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {STEPS.map((s, i) => (
+          <div key={s.k} className="w-full shrink-0 snap-center px-4" aria-roledescription="slide" aria-label={`${i + 1} of ${STEPS.length}`}>
+            <div className="relative overflow-hidden rounded-[2rem] bg-white px-5 pb-0 pt-6 ring-1 ring-line">
+              <div className="absolute inset-x-6 bottom-0 h-2/3 rounded-full bg-[radial-gradient(closest-side,var(--color-sky-soft),transparent)]" aria-hidden />
+              <span className={clsx("eyebrow relative", s.accent)}>
+                {String(i + 1).padStart(2, "0")} · {s.k}
+              </span>
+              <p className="display relative mt-2 text-[clamp(1.75rem,8vw,2.25rem)]">{s.title}</p>
+              <p className="relative mt-2 text-sm leading-relaxed text-ink-2">{s.body}</p>
+              <div className="relative mx-auto mt-6 h-[clamp(15rem,52svh,24rem)] w-[min(68%,15rem)] overflow-hidden">
+                <Phone src={s.screen} alt={`CreatorPay — ${s.k}`} notch={s.notch} />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={s.icon} alt="" className="absolute -right-1 top-10 h-14 w-14 drop-shadow-xl" />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Dots */}
+      <div className="mt-5 flex justify-center gap-2">
+        {STEPS.map((s, i) => (
+          <button
+            key={s.k}
+            onClick={() => go(i)}
+            aria-label={`Show step ${i + 1}: ${s.k}`}
+            className={clsx("h-2 rounded-full transition-all duration-500", i === active ? "w-7 bg-royal" : "w-2 bg-mist")}
+          />
+        ))}
+      </div>
+    </div>
   );
 }

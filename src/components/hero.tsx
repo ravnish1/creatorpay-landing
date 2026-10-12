@@ -6,7 +6,7 @@ import { useGSAP } from "@gsap/react";
 import clsx from "clsx";
 import { site } from "@/content/site";
 import { Countdown } from "./countdown";
-import { CalendarIcon, Eyebrow, GlassCta, PlayIcon, PrimaryCta } from "./ui";
+import { Arrow, CalendarIcon, CtaIcon, Eyebrow, GlassCta, PlayIcon, PrimaryCta } from "./ui";
 
 gsap.registerPlugin(useGSAP);
 
@@ -95,7 +95,7 @@ function FilmAct({ onDone }: { onDone: () => void }) {
         <GlassCta onClick={exit} className="shrink-0">Skip film</GlassCta>
       </div>
 
-      <div className="film-frame relative aspect-video w-full max-w-[min(100%,calc((100svh-15rem)*16/9))] overflow-hidden rounded-[2rem] bg-white shadow-[0_50px_100px_-40px_rgba(53,107,255,0.45)] ring-1 ring-line">
+      <div className={clsx("film-frame relative aspect-video w-full max-w-[min(100%,calc((100svh-15rem)*16/9))] overflow-hidden rounded-[2rem] bg-white shadow-[0_50px_100px_-40px_rgba(53,107,255,0.45)] ring-1 ring-line", !hasFilm && "max-sm:aspect-[4/5] max-sm:max-h-[calc(100svh-14rem)]")}>
         {hasFilm ? (
           <>
             <video
@@ -137,7 +137,7 @@ function PlaceholderFilm() {
   return (
     <div className="relative grid h-full w-full place-items-center bg-gradient-to-br from-white via-sky-soft to-lime-soft">
       {lines.map((l, i) => (
-        <p key={i} className="film-line display absolute max-w-4xl px-8 text-center text-4xl opacity-0 sm:text-6xl lg:text-7xl">
+        <p key={i} className="film-line display absolute max-w-4xl px-6 text-center text-[clamp(1.9rem,9vw,2.6rem)] opacity-0 sm:px-8 sm:text-6xl lg:text-7xl">
           {l}
         </p>
       ))}
@@ -146,7 +146,7 @@ function PlaceholderFilm() {
         <img src="/media/brand/logo.png" alt="" className="h-16 w-16 sm:h-24 sm:w-24" />
         <span className="font-sans text-4xl font-bold tracking-tight sm:text-6xl">CreatorPay</span>
       </div>
-      <span className="absolute right-5 top-5 rounded-full bg-white/80 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-widest text-ink-3 ring-1 ring-line">
+      <span className="absolute right-4 top-4 rounded-full sm:right-5 sm:top-5 bg-white/80 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-widest text-ink-3 ring-1 ring-line">
         Founders&rsquo; film — placeholder
       </span>
     </div>
@@ -209,6 +209,7 @@ function PortraitAct({ onReplay }: { onReplay: () => void }) {
           </GlassCta>
         </div>
 
+        <WinterCall className="mt-6 md:hidden short-flex" />
         <MobileFounders />
 
         <div className="p-fade mt-[clamp(1.25rem,4svh,2.5rem)] flex flex-wrap items-center gap-x-6 gap-y-3">
@@ -222,7 +223,24 @@ function PortraitAct({ onReplay }: { onReplay: () => void }) {
         </div>
       </div>
 
-      <FoundersPortrait />
+      <div className="relative hidden md:block short-hide">
+        <WinterCall className="mx-auto mb-[clamp(1.5rem,4svh,2.75rem)] max-w-[min(100%,30rem)]" />
+        <FoundersPortrait />
+      </div>
+    </div>
+  );
+}
+
+/** Launch line + "Join us" — above the founders' portrait (inside the hero copy on phones). */
+function WinterCall({ className }: { className?: string }) {
+  return (
+    <div className={clsx("p-fade flex flex-wrap items-center justify-between gap-x-6 gap-y-3", className)}>
+      <p className="display max-w-[19rem] text-[clamp(1.6rem,min(2.5vw,4.4svh),2.5rem)] leading-[1.02]">
+        Winter is coming. <em className="text-tangerine">And we&rsquo;re bringing the fire.</em>
+      </p>
+      <GlassCta href="#reserve" lead={<CtaIcon tone="lime"><Arrow className="-rotate-45" /></CtaIcon>}>
+        Join us
+      </GlassCta>
     </div>
   );
 }
@@ -231,7 +249,7 @@ function FoundersPortrait() {
   const [a, b] = site.founders;
   const photo = site.media.foundersPortrait;
   return (
-    <div className="relative mx-auto hidden w-full max-w-[min(100%,calc((100svh-11rem)*0.62))] md:block">
+    <div className="relative mx-auto w-full max-w-[min(100%,26rem,calc((100svh-19rem)*0.62))] lg:max-w-[min(100%,calc((100svh-19rem)*0.62))]">
       <div className="p-parallax relative">
         {photo ? (
           <div className="p-frame relative aspect-[4/5] overflow-hidden rounded-[2.5rem] ring-1 ring-line sm:aspect-[5/5]">
@@ -291,10 +309,10 @@ function FounderStack() {
   );
 }
 
-/** Mobile: compact founders row instead of the tall portrait, so the hero fits one screen. */
+/** Phones & short screens: compact founders row instead of the tall portrait, so the hero fits one screen. */
 function MobileFounders() {
   return (
-    <div className="p-fade mt-6 flex gap-2 md:hidden">
+    <div className="p-fade mt-6 flex max-w-xl gap-2 md:hidden short-flex">
       {site.founders.map((f, i) => (
         <div key={f.name} className="liquid-glass flex flex-1 items-center gap-2.5 rounded-2xl p-2">
           <span className={clsx("grid h-10 w-10 shrink-0 place-items-center rounded-full font-serif text-sm font-semibold", i ? "bg-lime text-ink" : "bg-royal text-white")}>

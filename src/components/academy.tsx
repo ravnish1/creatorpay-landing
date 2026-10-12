@@ -40,9 +40,9 @@ export function Academy() {
         </div>
 
         {/* Mock Academy card — what a learner sees */}
-        <div data-reveal className="relative mx-auto hidden w-full max-w-md md:block">
+        <div data-reveal className="relative mx-auto hidden w-full max-w-md md:mt-20 md:block lg:mt-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/media/icons/academy.webp" alt="" className="absolute -top-24 right-0 z-10 h-28 w-28 drop-shadow-2xl sm:-right-10 sm:-top-28 sm:h-36 sm:w-36" />
+          <img src="/media/icons/academy.webp" alt="" className="absolute -top-24 right-0 z-10 h-28 w-28 drop-shadow-2xl sm:-right-10 sm:-top-28 sm:h-36 sm:w-36 lg:-right-4 xl:-right-10" />
           <div className="rounded-[2.25rem] bg-white p-6 shadow-[0_40px_90px_-40px_rgba(123,92,240,0.55)] ring-1 ring-line">
             <p className="eyebrow text-violet">Academy · Track 03</p>
             <p className="display mt-2 text-4xl">Commerce</p>
